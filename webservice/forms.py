@@ -1,6 +1,12 @@
 from django import forms
-import requests
+
+from webservice.models import Review
 
 
-class SentimentForm(forms.Form):
-    input_text = forms.CharField(widget=forms.Textarea)
+class SentimentForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = [
+            'review_text',
+            'no_of_stars'
+        ]
