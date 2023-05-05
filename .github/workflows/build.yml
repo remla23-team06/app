@@ -24,8 +24,8 @@ jobs:
             - name: Build and Push Docker Image
               run: |
                   IMG=ghcr.io/${{ github.repository }}
-                  # Make IMG path lower case
                   IMG=${IMG,,}
+                  echo $IMG
                   docker build \
                     --tag $IMG:${{ env.version }} \
                     --tag $IMG:${{ env.version_major }}.${{ env.version_minor }}.latest \
