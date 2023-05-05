@@ -23,7 +23,9 @@ jobs:
                   echo "version_patch=$PATCH" >> $GITHUB_ENV
             - name: Build and Push Docker Image
               run: |
-                  IMG=ghcr.io/iodine98/remla-test
+                  IMG=ghcr.io/${{ github.repository }}
+                  # Make IMG path lower case
+                  IMG=${IMG,,}
                   docker build \
                     --tag $IMG:${{ env.version }} \
                     --tag $IMG:${{ env.version_major }}.${{ env.version_minor }}.latest \
