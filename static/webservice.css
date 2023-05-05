@@ -1,0 +1,21 @@
+.box {
+    display: flex;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h2 {
+    margin-top: 10px;
+}
+
+form {
+    display: flex;
+    margin: 10% 0;
+    height: 10em;
+    width: 10em;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}

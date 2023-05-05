@@ -1,0 +1,14 @@
+{% extends "webservice/base.html" %}
+
+{% block content %}
+    <div class="box">
+        <h2>Senti-O-Meter</h2>
+        <form action="" method="POST"> {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit">
+        </form>
+    <div class="item">
+        <p>{{ smiley_emoji | safe}}</p>
+    </div>
+    </div>
+{% endblock %}
