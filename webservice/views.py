@@ -5,19 +5,15 @@ from django.shortcuts import render
 
 from webservice.forms import SentimentForm
 
-from dotenv import load_dotenv
-
-load_dotenv()
-
 
 # Create your views here.
 def home_view(request):
-    server_url = getenv('SERVER_URL')
+    server_url = getenv('MODEL_SERVICE_URL')
     form = SentimentForm(request.POST or None)
-    smiley_emoji = "&#128577;"  # ""
+    smiley_emoji = "&#128577;"
 
     if form.is_valid():
-        # response = requests.post(server_url).json()
+        response = requests.post(server_url).json()
 
         is_positive = True # TODO: needs to be equal to a boolean constraint on the response
 
