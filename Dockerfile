@@ -20,7 +20,7 @@ COPY . /app
 ENV DJANGO_SETTINGS_MODULE=webservice.settings
 
 # Expose the port that the Django app will run on
-EXPOSE 8000
+EXPOSE 8080
 
 # Run the Django app when the container launches
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8080"]
