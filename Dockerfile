@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM python:3.10
+FROM python:3.10.7
 
 # Set the working directory to /app
 WORKDIR /app
@@ -11,7 +11,7 @@ COPY Pipfile Pipfile.lock /app/
 RUN pip install pipenv
 
 # Install dependencies
-RUN pipenv install --system
+RUN pipenv install --deploy --ignore-pipfile
 
 # Copy the current directory contents into the container at /app
 COPY . /app
@@ -23,4 +23,4 @@ ENV DJANGO_SETTINGS_MODULE=webservice.settings
 EXPOSE 8080
 
 # Run the Django app when the container launches
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8080"]
+CMD ["pipenv", "run", "manage.py", "runserver", "0.0.0.0:8080"]
