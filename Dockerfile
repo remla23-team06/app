@@ -11,7 +11,7 @@ COPY Pipfile Pipfile.lock /app/
 RUN pip install pipenv
 
 # Install dependencies
-pipenv install --deploy --ignore-pipfile
+RUN pipenv install --deploy --ignore-pipfile
 
 # Copy the current directory contents into the container at /app
 COPY . /app
