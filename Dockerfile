@@ -23,4 +23,4 @@ ENV DJANGO_SETTINGS_MODULE=webservice.settings
 EXPOSE 8080
 
 # Run the Django app when the container launches
-CMD ["pipenv", "run", "manage.py", "runserver", "0.0.0.0:8080"]
+CMD ["pipenv", "run", "python", "manage.py", "runserver", "0.0.0.0:8080"]
