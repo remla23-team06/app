@@ -7,8 +7,11 @@
             {{ form.as_p }}
             <input type="submit">
         </form>
-    <div class="item">
-        <h2>{{ smiley_emoji | safe}}</h2>
-    </div>
+        <div class="item">
+            <h2>{{ smiley_emoji | safe }}</h2>
+        </div>
+        <div class="item">
+            <h2>{{ current_version }}</h2>
+        </div>
     </div>
 {% endblock %}

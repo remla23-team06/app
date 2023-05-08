@@ -3,10 +3,16 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
+[[source]]
+url = "https://test.pypi.org/simple"
+verify_ssl = true
+name = "test"
+
 [packages]
-django = "*"
-requests = "*"
-python-dotenv = "*"
+remlaverlib = {version="*", index="test"}
+django = {version="*", index="pypi"}
+requests = {version="*", index="pypi"}
+python-dotenv = {version="*", index="pypi"}
 
 [dev-packages]
 

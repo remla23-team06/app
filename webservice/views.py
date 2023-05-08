@@ -2,7 +2,7 @@ from os import getenv
 
 import requests
 from django.shortcuts import render
-
+from remlaverlib.version_util import VersionUtil
 from webservice.forms import SentimentForm
 
 
@@ -21,7 +21,7 @@ def home_view(request):
     context = {
         'form': form,
         'server_url': server_url,
-        'smiley_emoji': smiley_emoji
-
+        'smiley_emoji': smiley_emoji,
+        'current_version': VersionUtil.get_version()
     }
     return render(request, "webservice/index.html", context)
