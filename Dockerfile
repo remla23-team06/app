@@ -23,4 +23,4 @@ RUN poetry install
 COPY . /app
 
 # Run the Django app when the container launches
-CMD ["pipenv", "run", "python", "manage.py", "runserver", "0.0.0.0:8080"]
+CMD ["poetry", "run", "flask", "run", "0.0.0.0:8080"]
