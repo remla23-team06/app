@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p>Thank you! You will be redirected in 5 seconds to the home page.</p>
+    <script>window.setTimeout(() => {
+        window.location.href = "/"
+    }, 5000)</script>
+{% endblock %}
