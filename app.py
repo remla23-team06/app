@@ -1,24 +1,28 @@
 from os import getenv, urandom
-
 import requests
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template
 from flask_wtf import FlaskForm
-from wtforms import validators, BooleanField, TextAreaField, RadioField
+from wtforms import validators, TextAreaField, RadioField
 from remlaverlib.version_util import VersionUtil
-from wtforms.csrf.core import CSRFTokenField
 
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = urandom(32)
-server_url = getenv('MODEL_SERVICE_URL')
-validation_url = getenv('MODEL_SERVICE_VALIDATION_URL')
+server_url = getenv('MODEL_SERVICE_URL', "http://0.0.0.0:8000/predict")
+validation_url = getenv('MODEL_SERVICE_VALIDATION_URL', "http://0.0.0.0:8000/validate")
 
 
 class ReviewForm(FlaskForm):
+    """
+    Create text area field for review
+    """
     review = TextAreaField('Review', validators=[validators.DataRequired()])
 
 
 class ValidationForm(FlaskForm):
+    """
+    Create radio button field for validating the prediction
+    """
     is_correct = RadioField('Correct prediction', validators=[validators.DataRequired()], choices=['yes', 'no'])
 
 
@@ -28,6 +32,8 @@ def validate():
     review_form = ReviewForm()
     validation_form = ValidationForm()
     if validation_form.validate_on_submit():
+
+        # Show a thank you message and redirect the user to the home page
         return render_template("thanks.html")
     return render_template("index.html", review_form=review_form, smiley_emoji=smiley_emoji,
                            current_version=VersionUtil.get_version(), validation_form=validation_form)
@@ -39,8 +45,8 @@ def submit():
     review_form = ReviewForm()
     validation_form = None
     if review_form.validate_on_submit():
-        requests.post(server_url).json()
-        is_positive = True  # TODO: needs to be equal to a boolean constraint on the response
+        json_response: dict = requests.post(server_url, {"data": review_form.review.data}).json()
+        is_positive = json_response.get('sentiment', 0) == 1
         smiley_emoji = "&#128578;" if is_positive else "&#128577;"
         validation_form = ValidationForm()
     return render_template("index.html", review_form=review_form, smiley_emoji=smiley_emoji,

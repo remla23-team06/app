@@ -3,24 +3,35 @@ FROM python:3.10
 
 # Configure Poetry
 ENV POETRY_VERSION=1.2.0
-ENV POETRY_HOME=/opt/poetry
-ENV POETRY_VENV=/opt/poetry-venv
-ENV POETRY_CACHE_DIR=/opt/.cache
+ENV POETRY_HOME="/opt/poetry" \
+    POETRY_VIRTUALENVS_IN_PROJECT=true \
+    POETRY_NO_INTERACTION=1 \
+    POETRY_VERSION=1.2.0
+ENV PATH="$PATH:$POETRY_HOME/bin"
 
-# Install poetry separated from system interpreter
-RUN python3 -m venv $POETRY_VENV \
-    && $POETRY_VENV/bin/pip install -U pip setuptools \
-    && $POETRY_VENV/bin/pip install poetry==${POETRY_VERSION}
+# Set env variable for Flask App
+ENV FLASK_APP=app
+ENV FLASK_RUN_HOST=0.0.0.0
+ENV FLASK_RUN_PORT=8080
 
-# Set the working directory to /app
-WORKDIR /app
+# Expose same port
+EXPOSE $FLASK_RUN_PORT
 
-# Install dependencies
-COPY poetry.lock pyproject.toml ./
-RUN poetry install
+
+# Install Poetry
+RUN curl -sSL https://install.python-poetry.org | python3 -
 
 # Copy the current directory contents into the container at /app
 COPY . /app
 
-# Run the Django app when the container launches
-CMD ["poetry", "run", "flask", "run", "0.0.0.0:8080"]
+# Set the working directory to /app
+WORKDIR /app
+
+
+# Install dependencies
+RUN poetry lock
+RUN poetry update
+
+# Run the Flask app when the container launches
+ENTRYPOINT /bin/bash
+CMD ["poetry", "run", "flask", "run"]
