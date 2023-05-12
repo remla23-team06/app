@@ -5,7 +5,7 @@ on:
 
 jobs:
     lint:
-        runs-on: python-3.10
+        runs-on: ubuntu-22.04
         steps:
             - uses: actions/checkout@v3
             - name: Build Web app
