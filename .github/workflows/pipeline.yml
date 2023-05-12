@@ -4,6 +4,17 @@ on:
         tags: ["v[0-9]+.[0-9]+.[0-9]+"]
 
 jobs:
+    lint:
+        runs-on: python-3.10
+        steps:
+            - uses: actions/checkout@v3
+            - name: Build Web app
+              run: docker build . -t app-ci
+            - name: Lint Web app
+              run: docker run --entrypoint  \
+                    "/bin/bash -c 'poetry install --only dev \
+                        pylint --load-plugins=dslinter app.py'" \
+                    app-ci
     build:
         runs-on: ubuntu-22.04
         steps:

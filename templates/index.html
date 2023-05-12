@@ -14,14 +14,14 @@
         <div class="item">
             <form action="/validate" method="POST">
                 {{ validation_form.csrf_token }}
-            <div class="radio">
-                {% for option in validation_form.is_correct %}
-                    <tr>
-                        <td>{{ option }}</td>
-                        <td>{{ option.label }}</td>
-                    </tr>
-                {% endfor %}
-            </div>
+                <div class="radio">
+                    {% for option in validation_form.is_correct %}
+                        <tr>
+                            <td>{{ option }}</td>
+                            <td>{{ validation_form.is_correct.choices[loop.index0] | safe }}</td>
+                        </tr>
+                    {% endfor %}
+                </div>
                 {% if validation_form %}
                     <input type="submit">
                 {% endif %}
