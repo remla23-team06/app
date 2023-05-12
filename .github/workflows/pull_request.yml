@@ -1,7 +1,7 @@
 on:
   pull_request:
-    - opened
-    - edited
+    types: [opened, edited]
+
 jobs:
     lint:
         runs-on: ubuntu-22.04
