@@ -31,7 +31,7 @@ def validate():
     review_form = ReviewForm()
     validation_form = ValidationForm()
     if validation_form.validate_on_submit():
-        requests.post(server_url+"/validate", {"validation": validation_form.is_correct})
+        requests.post(server_url+"/validate", {"validation": validation_form.is_correct.data})
         # Show a thank you message and redirect the user to the home page
         return render_template("thanks.html")
     return render_template("index.html", review_form=review_form, smiley_emoji=smiley_emoji,
