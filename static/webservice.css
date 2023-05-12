@@ -1,6 +1,5 @@
 .box {
     display: flex;
-
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -10,12 +9,23 @@ h2 {
     margin-top: 10px;
 }
 
+input[type="submit"] {
+    margin-top: 10px;
+}
+
 form {
     display: flex;
-    margin: 10% 0;
-    height: 10em;
+    margin: 5rem 0;
+    height: 2em;
     width: 10em;
     align-items: center;
     flex-direction: column;
     justify-content: center;
+}
+
+.radio {
+    display: flex;
+    flex-direction: row;
+    width: 6em;
+    justify-content: space-around;
 }

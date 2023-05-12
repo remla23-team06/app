@@ -1,26 +1,36 @@
 # Use an official Python runtime as a parent image
-FROM python:3.10.7
+FROM python:3.10
 
-# Set the working directory to /app
-WORKDIR /app
+# Configure Poetry
+ENV POETRY_VERSION=1.2.0
+ENV POETRY_HOME="/opt/poetry" \
+    POETRY_VIRTUALENVS_IN_PROJECT=true \
+    POETRY_NO_INTERACTION=1 \
+    POETRY_VERSION=1.2.0
+ENV PATH="$PATH:$POETRY_HOME/bin"
 
-# Copy the Pipfile and Pipfile.lock to the container
-COPY Pipfile Pipfile.lock /app/
+# Set env variable for Flask App
+ENV FLASK_APP=app
+ENV FLASK_RUN_HOST=0.0.0.0
+ENV FLASK_RUN_PORT=8080
 
-# Install Pipenv
-RUN pip install pipenv
+# Expose same port
+EXPOSE $FLASK_RUN_PORT
 
-# Install dependencies
-RUN pipenv install --deploy --ignore-pipfile
+
+# Install Poetry
+RUN curl -sSL https://install.python-poetry.org | python3 -
 
 # Copy the current directory contents into the container at /app
 COPY . /app
 
-# Set the environment variable for Django
-ENV DJANGO_SETTINGS_MODULE=webservice.settings
+# Set the working directory to /app
+WORKDIR /app
 
-# Expose the port that the Django app will run on
-EXPOSE 8080
 
-# Run the Django app when the container launches
-CMD ["pipenv", "run", "python", "manage.py", "runserver", "0.0.0.0:8080"]
+# Install dependencies
+RUN poetry lock
+RUN poetry update
+
+# Run the Flask app when the container launches
+CMD ["poetry", "run", "flask", "run"]

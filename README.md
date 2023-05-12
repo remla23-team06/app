@@ -1,6 +1,15 @@
 # app
 
-This is a Django project that requires the installation of `pipenv`.
+## Install Poetry (for Python package management)
+See this [link](https://python-poetry.org/docs/#installation) for how to install poetry for your platform.
 
-Please install `pipenv` using `pip install --user pipenv` and set `pipenv` as your interpreter in your IDE for Python 3.10
+## Install requirements
+```bash
+# in the root directory of the repo
+poetry update
+```
 
+## Run the app server
+```bash
+poetry run flask --app app --port 8000 --host 0.0.0.0
+```
