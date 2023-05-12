@@ -11,7 +11,7 @@ jobs:
             - name: Install poetry
               run: curl -sSL https://install.python-poetry.org | python3 - --version=1.4.2
             - name: Install only dev dependencies
-              run: poetry -vv install --no-interaction --no-ansi --only dev
+              run: poetry -vv install --no-interaction --no-ansi
             - name: Run linting
               run: poetry --no-interaction --no-ansi run pylint --load-plugins=dslinter app.py
     build:
