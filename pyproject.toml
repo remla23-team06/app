@@ -19,11 +19,16 @@ secondary = true
 [tool.poetry.dependencies]
 python = "^3.10"
 remlaverlib = {version = "^0.1.1", source = "test"}
-python-dotenv = "1.0.0"
-requests = "2.30.0"
-flask = "2.3.2"
-Flask-WTF = "1.1.1"
-WTForms = "3.0.1"
+python-dotenv = "^1.0.0"
+requests = "^2.30.0"
+flask = "^2.3.2"
+Flask-WTF = "^1.1.1"
+WTForms = "^3.0.1"
+
+[tool.poetry.dev-dependencies]
+pylint = "^2.2.12"
+dslinter = "2.0.9"
+
 
 
 [build-system]

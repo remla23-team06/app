@@ -4,8 +4,19 @@ on:
         tags: ["v[0-9]+.[0-9]+.[0-9]+"]
 
 jobs:
+    lint:
+        runs-on: ubuntu-22.04
+        steps:
+            - uses: actions/checkout@v3
+            - name: Install poetry
+              run: curl -sSL https://install.python-poetry.org | python3 - --version=1.4.2
+            - name: Install dependencies
+              run: poetry -vv install --no-interaction --no-ansi
+            - name: Run linting
+              run: poetry --no-interaction --no-ansi run pylint --load-plugins=dslinter app.py
     build:
         runs-on: ubuntu-22.04
+        needs: lint
         steps:
             - uses: actions/checkout@v3
             - name: Registry Login (ghcr.io)
