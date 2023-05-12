@@ -22,7 +22,7 @@ class ValidationForm(FlaskForm):
     """
     Create radio button field for validating the prediction
     """
-    is_correct = RadioField('Correct prediction', validators=[validators.DataRequired()], choices=['yes', 'no'])
+    is_correct = RadioField('Correct prediction', validators=[validators.DataRequired()], choices=['true', 'false'])
 
 
 @app.route("/validate", methods=['POST'])
