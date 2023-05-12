@@ -13,8 +13,7 @@ jobs:
             - name: Lint Web app
               run: docker run --entrypoint \
                   /bin/bash app-ci -c \
-                  "poetry -vv install --no-interaction --no-ansi --only \
-                  dev && poetry --no-interaction --no-ansi run pylint --load-plugins=dslinter app.py"
+                  "poetry -vv install --no-interaction --no-ansi --only dev && poetry --no-interaction --no-ansi run pylint --load-plugins=dslinter app.py"
     build:
         runs-on: ubuntu-22.04
         needs: lint
