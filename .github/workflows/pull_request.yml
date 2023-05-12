@@ -1,7 +1,7 @@
 name: Linting Python code
 on:
   pull_request:
-    types: [opened, edited]
+    types: [opened, edited, reopened]
 
 jobs:
     lint:
