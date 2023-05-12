@@ -1,3 +1,4 @@
+name: Linting Python code
 on:
   pull_request:
     types: [opened, edited]
