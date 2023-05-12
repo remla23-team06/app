@@ -1,6 +1,7 @@
 """
 This module contains the flask server running the web-app
 """
+import json
 from os import getenv, urandom
 import requests
 from flask import Flask, render_template, redirect
@@ -40,7 +41,7 @@ def validate():
     validation_form = ValidationForm()
     if validation_form.validate_on_submit():
         validation_request = validation_form.is_correct.data == validation_form.thumbs_up
-        requests.post(server_url + "/validate", {"validation": validation_request})
+        requests.post(server_url + "/validate", {"validation": json.dumps(validation_request)})
         # Show a thank you message and redirect the user to the home page
         return render_template("thanks.html")
     return redirect("/", 301)
