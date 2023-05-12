@@ -11,12 +11,14 @@ jobs:
             - name: Build Web app
               run: docker build . -t app-ci
             - name: Lint Web app
-              run: docker run --entrypoint  \
-                    "/bin/bash -c 'poetry install --only dev \
-                        pylint --load-plugins=dslinter app.py'" \
-                    app-ci
+              run: docker run \
+                  --entrypoint /bin/bash \
+                  app-local:latest -c \
+                  "poetry -vv install --no-interaction --no-ansi --only dev && \
+                  poetry --no-interaction --no-ansi run pylint --load-plugins=dslinter app.py"
     build:
         runs-on: ubuntu-22.04
+        needs: lint
         steps:
             - uses: actions/checkout@v3
             - name: Registry Login (ghcr.io)
