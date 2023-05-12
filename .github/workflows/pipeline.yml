@@ -8,10 +8,12 @@ jobs:
         runs-on: ubuntu-22.04
         steps:
             - uses: actions/checkout@v3
-            - name: Build Web app
-              run: docker build . -t app-ci
-            - name: Lint Web app
-              run: docker run --entrypoint sh app-ci -c "poetry -vv install --no-interaction --no-ansi --only dev && poetry --no-interaction --no-ansi run pylint --load-plugins=dslinter app.py"
+            - name: Install poetry
+              run: curl -sSL https://install.python-poetry.org | --version=1.4.2 python3 -
+            - name: Install only dev dependencies
+              run: poetry -vv install --no-interaction --no-ansi --only dev
+            - name: Run linting
+              run: poetry --no-interaction --no-ansi run pylint --load-plugins=dslinter app.py
     build:
         runs-on: ubuntu-22.04
         needs: lint
