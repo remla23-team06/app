@@ -12,7 +12,7 @@ jobs:
               run: docker build . -t app-ci
             - name: Lint Web app
               run: docker run --entrypoint \
-                  /bin/bash app-local:latest -c \
+                  /bin/bash app-ci -c \
                   "poetry -vv install --no-interaction --no-ansi --only \
                   dev && poetry --no-interaction --no-ansi run pylint --load-plugins=dslinter app.py"
     build:
