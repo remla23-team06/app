@@ -24,7 +24,7 @@ class ReviewForm(FlaskForm):
     """
     Create text area field for review
     """
-    review = TextAreaField('Review', validators=[validators.DataRequired()], render_kw={"rows": 70, "cols": 11})
+    review = TextAreaField('Review', validators=[validators.DataRequired()], render_kw={"rows": 5, "cols": 12})
     
     # Make the text are larger
     review.rows = 15
@@ -64,6 +64,7 @@ def validate():
 def submit():
     """Send the data from the text field to the server."""
     global ALL_PREDICTIONS, countSubmit
+    countSubmit += 1
 
     review_form = ReviewForm()
     if review_form.validate_on_submit():
@@ -86,6 +87,7 @@ def submit():
 def hello():
     """Home page."""
     global countHello
+    countHello += 1
     review_form = ReviewForm()
     return render_template("index.html",
                            review_form=review_form,
