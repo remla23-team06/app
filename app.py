@@ -24,10 +24,7 @@ class ReviewForm(FlaskForm):
     """
     Create text area field for review
     """
-    review = TextAreaField('Review', validators=[validators.DataRequired()], render_kw={"rows": 5, "cols": 12})
-    
-    # Make the text are larger
-    review.rows = 15
+    review = TextAreaField('Review', validators=[validators.DataRequired()], render_kw={"rows": 5, "cols": 36})
 
 
 class ValidationForm(FlaskForm):
@@ -55,7 +52,7 @@ def validate():
             FALSE_PREDICTIONS += 1
         requests.post(server_url + "/validate",
                       {"validation": json.dumps(prediction_is_correct)})
-        # Show a thank you message and redirectthe user to the home page
+        # Show a thank you message and redirect the user to the home page
         return render_template("thanks.html")
     return redirect("/", 301)
 
