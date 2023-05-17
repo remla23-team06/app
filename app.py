@@ -41,7 +41,7 @@ class ValidationForm(FlaskForm):
 @app.route("/validate", methods=['POST'])
 def validate():
     """Process the feedback from the validation form in `index.html`."""
-    global CORRECT_PREDICTIONS, FALSE_PREDICTIONS, COUNT_VALIDATE
+    global CORRECT_PREDICTIONS, FALSE_PREDICTIONS, COUNT_VALIDATE # pylint: disable=W0603
     COUNT_VALIDATE += 1
     validation_form = ValidationForm()
     if validation_form.validate_on_submit():
@@ -62,7 +62,7 @@ def validate():
 @app.route("/submit", methods=['POST'])
 def submit():
     """Send the data from the text field to the server."""
-    global ALL_PREDICTIONS, COUNT_SUBMIT
+    global ALL_PREDICTIONS, COUNT_SUBMIT # pylint: disable=W0603
     COUNT_SUBMIT += 1
 
     review_form = ReviewForm()
@@ -86,7 +86,7 @@ def submit():
 @app.route("/", methods=['GET'])
 def hello():
     """Home page."""
-    global COUNT_HELLO
+    global COUNT_HELLO # pylint: disable=W0603
     COUNT_HELLO += 1
     review_form = ReviewForm()
     return render_template("index.html",
@@ -98,19 +98,19 @@ def hello():
 @app.route('/metrics', methods=['GET'])
 def metrics():
     """Send metrics for monitoring to Prometheus."""
-    global ALL_PREDICTIONS, CORRECT_PREDICTIONS, FALSE_PREDICTIONS
-    global COUNT_HELLO, COUNT_SUBMIT, COUNT_VALIDATE
+    global ALL_PREDICTIONS, CORRECT_PREDICTIONS, FALSE_PREDICTIONS # pylint: disable=W0602
+    global COUNT_HELLO, COUNT_SUBMIT, COUNT_VALIDATE # pylint: disable=W0602
 
-    m = "# HELP predictions The number of predictions.\n" # pylint: disable=snake_case
-    m += "# TYPE predictions counter\n" # pylint: disable=snake_case
-    m += "predictions{{correct=\"None\"}} {}\n".format(ALL_PREDICTIONS) # pylint: disable=snake_case
-    m += "predictions{{correct=\"True\"}} {}\n".format(CORRECT_PREDICTIONS) # pylint: disable=snake_case
-    m += "predictions{{correct=\"False\"}} {}\n".format(FALSE_PREDICTIONS) # pylint: disable=snake_case
+    m = "# HELP predictions The number of predictions.\n" # pylint: disable=C0103
+    m += "# TYPE predictions counter\n" # pylint: disable=C0103
+    m += "predictions{{correct=\"None\"}} {}\n".format(ALL_PREDICTIONS) # pylint: disable=C0103
+    m += "predictions{{correct=\"True\"}} {}\n".format(CORRECT_PREDICTIONS) # pylint: disable=C0103
+    m += "predictions{{correct=\"False\"}} {}\n".format(FALSE_PREDICTIONS) # pylint: disable=C0103
 
-    m += "# HELP num_requests The number of requests.\n" # pylint: disable=snake_case
-    m += "# TYPE num_requests counter\n" # pylint: disable=snake_case
-    m += "num_requests{{page=\"index\"}} {}\n".format(COUNT_HELLO) # pylint: disable=snake_case
-    m += "num_requests{{page=\"validate\"}} {}\n".format(COUNT_VALIDATE) # pylint: disable=snake_case
-    m += "num_requests{{page=\"submit\"}} {}\n".format(COUNT_SUBMIT) # pylint: disable=snake_case
+    m += "# HELP num_requests The number of requests.\n" # pylint: disable=C0103
+    m += "# TYPE num_requests counter\n" # pylint: disable=C0103
+    m += "num_requests{{page=\"index\"}} {}\n".format(COUNT_HELLO) # pylint: disable=C0103
+    m += "num_requests{{page=\"validate\"}} {}\n".format(COUNT_VALIDATE) # pylint: disable=C0103
+    m += "num_requests{{page=\"submit\"}} {}\n".format(COUNT_SUBMIT) # pylint: disable=C0103
 
     return Response(m, mimetype="text/plain")
