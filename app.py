@@ -103,14 +103,14 @@ def metrics():
 
     m = "# HELP predictions The number of predictions.\n" # pylint: disable=C0103
     m += "# TYPE predictions counter\n" # pylint: disable=C0103
-    m += "predictions{{correct=\"None\"}} {}\n".format(ALL_PREDICTIONS) # pylint: disable=C0103
-    m += "predictions{{correct=\"True\"}} {}\n".format(CORRECT_PREDICTIONS) # pylint: disable=C0103
-    m += "predictions{{correct=\"False\"}} {}\n".format(FALSE_PREDICTIONS) # pylint: disable=C0103
+    m += "predictions{{correct=\"None\"}} {}\n".format(ALL_PREDICTIONS) # pylint: disable={C0103, C0209}
+    m += "predictions{{correct=\"True\"}} {}\n".format(CORRECT_PREDICTIONS) # pylint: disable={C0103, C0209}
+    m += "predictions{{correct=\"False\"}} {}\n".format(FALSE_PREDICTIONS) # pylint: disable={C0103, C0209}
 
-    m += "# HELP num_requests The number of requests.\n" # pylint: disable=C0103
-    m += "# TYPE num_requests counter\n" # pylint: disable=C0103
-    m += "num_requests{{page=\"index\"}} {}\n".format(COUNT_HELLO) # pylint: disable=C0103
-    m += "num_requests{{page=\"validate\"}} {}\n".format(COUNT_VALIDATE) # pylint: disable=C0103
-    m += "num_requests{{page=\"submit\"}} {}\n".format(COUNT_SUBMIT) # pylint: disable=C0103
+    m += "# HELP num_requests The number of requests.\n" # pylint: disable={C0103, C0209}
+    m += "# TYPE num_requests counter\n" # pylint: disable={C0103, C0209}
+    m += "num_requests{{page=\"index\"}} {}\n".format(COUNT_HELLO) # pylint: disable={C0103, C0209}
+    m += "num_requests{{page=\"validate\"}} {}\n".format(COUNT_VALIDATE) # pylint: disable={C0103, C0209}
+    m += "num_requests{{page=\"submit\"}} {}\n".format(COUNT_SUBMIT) # pylint: disable={C0103, C0209}
 
     return Response(m, mimetype="text/plain")
