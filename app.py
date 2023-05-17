@@ -101,16 +101,16 @@ def metrics():
     global ALL_PREDICTIONS, CORRECT_PREDICTIONS, FALSE_PREDICTIONS
     global COUNT_HELLO, COUNT_SUBMIT, COUNT_VALIDATE
 
-    m = "# HELP predictions The number of predictions.\n"
-    m += "# TYPE predictions counter\n"
-    m += "predictions{{correct=\"None\"}} {}\n".format(ALL_PREDICTIONS)
-    m += "predictions{{correct=\"True\"}} {}\n".format(CORRECT_PREDICTIONS)
-    m += "predictions{{correct=\"False\"}} {}\n".format(FALSE_PREDICTIONS)
+    m = "# HELP predictions The number of predictions.\n" # pylint: disable=snake_case
+    m += "# TYPE predictions counter\n" # pylint: disable=snake_case
+    m += "predictions{{correct=\"None\"}} {}\n".format(ALL_PREDICTIONS) # pylint: disable=snake_case
+    m += "predictions{{correct=\"True\"}} {}\n".format(CORRECT_PREDICTIONS) # pylint: disable=snake_case
+    m += "predictions{{correct=\"False\"}} {}\n".format(FALSE_PREDICTIONS) # pylint: disable=snake_case
 
-    m += "# HELP num_requests The number of requests.\n"
-    m += "# TYPE num_requests counter\n"
-    m += "num_requests{{page=\"index\"}} {}\n".format(COUNT_HELLO)
-    m += "num_requests{{page=\"validate\"}} {}\n".format(COUNT_VALIDATE)
-    m += "num_requests{{page=\"submit\"}} {}\n".format(COUNT_SUBMIT)
+    m += "# HELP num_requests The number of requests.\n" # pylint: disable=snake_case
+    m += "# TYPE num_requests counter\n" # pylint: disable=snake_case
+    m += "num_requests{{page=\"index\"}} {}\n".format(COUNT_HELLO) # pylint: disable=snake_case
+    m += "num_requests{{page=\"validate\"}} {}\n".format(COUNT_VALIDATE) # pylint: disable=snake_case
+    m += "num_requests{{page=\"submit\"}} {}\n".format(COUNT_SUBMIT) # pylint: disable=snake_case
 
     return Response(m, mimetype="text/plain")
