@@ -16,8 +16,8 @@ input[type="submit"] {
 form {
     display: flex;
     margin: 5rem 0;
-    height: 2em;
-    width: 10em;
+    height: 10em;
+    width: 20em;
     align-items: center;
     flex-direction: column;
     justify-content: center;

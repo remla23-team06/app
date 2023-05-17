@@ -5,7 +5,8 @@
         <h2>Senti-O-Meter</h2>
         <form action="/submit" method="POST">
             {{ review_form.csrf_token }}
-            {{ review_form.review.label }} {{ review_form.review }}
+            {{ review_form.review.label }}
+            {{ review_form.review }}
             <input type="submit">
         </form>
         <div class="item">
