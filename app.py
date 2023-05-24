@@ -24,8 +24,8 @@ class ReviewForm(FlaskForm):
 class ValidationForm(FlaskForm):
     """Create radio button field for validating the prediction."""
 
-    thumbs_up = "&#x1F44D;"
-    thumbs_down = "&#x1F44E;"
+    thumbs_up = "Correct"
+    thumbs_down = "Incorrect"
     is_correct = RadioField('Correct prediction',
                             validators=[validators.DataRequired()],
                             choices=[thumbs_up, thumbs_down])
@@ -56,7 +56,7 @@ def submit():
             {"data": review_form.review.data},
             timeout=1.5).json()
         is_positive = response.get('sentiment', 0) == 1
-        smiley_emoji = "&#128578;" if is_positive else "&#128577;"
+        smiley_emoji = "You are happy!" if is_positive else "You are sad."
         validation_form = ValidationForm()
         return render_template("index.html",
                                review_form=review_form,
