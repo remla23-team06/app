@@ -2,7 +2,7 @@
 import json
 from os import getenv, urandom
 import requests
-from flask import Flask, render_template, redirect, Response
+from flask import Flask, render_template, redirect
 from flask_wtf import FlaskForm
 from wtforms import validators, TextAreaField, RadioField
 from remlaverlib.version_util import VersionUtil
