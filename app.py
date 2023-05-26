@@ -39,7 +39,7 @@ def validate():
         prediction_is_correct = (validation_form.is_correct.data ==
                                  validation_form.thumbs_up)
         requests.post(server_url + "/validate",
-                      {"validation": json.dumps(prediction_is_correct)},
+                      {"validation": json.dumps(prediction_is_correct), "sender": "without-emoji"},
                       timeout=1.5)
         # Show a thank you message and redirect the user to the home page
         return render_template("thanks.html")

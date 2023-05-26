@@ -17,7 +17,7 @@ secondary = true
 
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.8"
 remlaverlib = {version = "^0.1.1", source = "test"}
 python-dotenv = "^1.0.0"
 requests = "^2.30.0"
