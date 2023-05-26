@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "app"
 version = "0.0.0"
-description = ""
+description = "This is the Web app serving the restaurant reviews and its validator."
 authors = ["Rohan Sobha <r.r.sobha@student.tudelft.nl>"]
 readme = "README.md"
 
@@ -18,7 +18,7 @@ secondary = true
 
 [tool.poetry.dependencies]
 python = "^3.10"
-remlaverlib = {version = "^0.1.1", source = "test"}
+remlaverlib = {version = "^2.0.0", source = "test"}
 python-dotenv = "^1.0.0"
 requests = "^2.30.0"
 flask = "^2.3.2"
