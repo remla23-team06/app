@@ -39,7 +39,7 @@ def validate():
         prediction_is_correct = (validation_form.is_correct.data ==
                                  validation_form.thumbs_up)
         requests.post(server_url + "/validate",
-                      {"validation": json.dumps(prediction_is_correct), "sender": "without-emoji"},
+                      {"validation": json.dumps(prediction_is_correct), "sender": "without-emojis"},
                       timeout=1.5)
         # Show a thank you message and redirect the user to the home page
         return render_template("thanks.html")
@@ -53,7 +53,7 @@ def submit():
     if review_form.validate_on_submit():
         response: dict = requests.post(
             server_url + "/predict",
-            {"data": review_form.review.data},
+            {"data": review_form.review.data, "sender": "without-emojis"},
             timeout=1.5).json()
         is_positive = response.get('sentiment', 0) == 1
         smiley_emoji = "You are happy!" if is_positive else "You are sad."
