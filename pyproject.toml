@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "app"
 version = "0.0.0"
-description = ""
+description = "This is the Web app serving the restaurant reviews and its validator."
 authors = ["Rohan Sobha <r.r.sobha@student.tudelft.nl>"]
 readme = "README.md"
 
