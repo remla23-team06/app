@@ -3,17 +3,32 @@
 {% block content %}
     <div class="box">
         <h2>Senti-O-Meter</h2>
-        <form action="/submit" method="POST">
+        <form id="submitForm" action="/submit" method="POST">
             {{ review_form.csrf_token }}
             {{ review_form.review.label }}
             {{ review_form.review }}
             <input type="submit">
         </form>
+        <script>
+            // JavaScript code
+            document.getElementById('submitForm').addEventListener('submit', function(event) {
+              var current_version = "{{ current_version }}";
+          
+              // Get the form action URL
+              var formAction = this.getAttribute('action');
+          
+              // Modify the form action URL by appending the version query parameter
+              var updatedAction = formAction + "?version=" + encodeURIComponent(current_version);
+          
+              // Update the form action attribute
+              this.setAttribute('action', updatedAction);
+            });
+        </script>
         <div class="item">
             <h2>{{ smiley_emoji | safe }}</h2>
         </div>
         <div class="item">
-            <form action="/validate" method="POST">
+            <form id="validateForm" action="/validate" method="POST">
                 {{ validation_form.csrf_token }}
                 <div class="radio">
                     {% for option in validation_form.is_correct %}
@@ -27,6 +42,21 @@
                     <input type="submit">
                 {% endif %}
             </form>
+            <script>
+                // JavaScript code
+                document.getElementById('validateForm').addEventListener('submit', function(event) {
+                  var current_version = "{{ current_version }}";
+              
+                  // Get the form action URL
+                  var formAction = this.getAttribute('action');
+              
+                  // Modify the form action URL by appending the version query parameter
+                  var updatedAction = formAction + "?version=" + encodeURIComponent(current_version);
+              
+                  // Update the form action attribute
+                  this.setAttribute('action', updatedAction);
+                });
+            </script>
         </div>
         <div class="item">
             <h2>{{ current_version }}</h2>
