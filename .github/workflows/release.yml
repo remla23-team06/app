@@ -1,7 +1,7 @@
 name: Build app repo
 on:
     push:
-        tags: ["[A-z-]+"]
+        tags: ["[a-z-]+"]
 
 jobs:
     lint:
