@@ -56,7 +56,7 @@ def submit():
             {"data": review_form.review.data, "sender": "without-emojis"},
             timeout=20).json()
         is_positive = response.get('sentiment', 0) == 1
-        smiley_emoji = "You are happy!" if is_positive else "You are sad."
+        smiley_emoji = "You seem positive!" if is_positive else "You seem negative."
         validation_form = ValidationForm()
         return render_template("index.html",
                                review_form=review_form,
