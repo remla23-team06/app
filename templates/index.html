@@ -5,59 +5,90 @@
         <h2>Senti-O-Meter</h2>
         <form id="submitForm" action="/submit" method="POST">
             {{ review_form.csrf_token }}
-            {{ review_form.review.label }}
-            {{ review_form.review }}
+            <label for="review">{{ review_form.review.label }}</label>
+            {{ review_form.review(class="review-input") }}
+
+            <p>Please review our service:</p>
+            <p>1 Star - Very Dissatisfied, 5 Stars - Very Satisfied</p>
+            <div id="starRating" class="rating">
+                <div class="stars">
+                    <input type="radio" id="star1" name="rating" value="1">
+                    <label for="star1"></label>
+                    <input type="radio" id="star2" name="rating" value="2">
+                    <label for="star2"></label>
+                    <input type="radio" id="star3" name="rating" value="3">
+                    <label for="star3"></label>
+                    <input type="radio" id="star4" name="rating" value="4">
+                    <label for="star4"></label>
+                    <input type="radio" id="star5" name="rating" value="5">
+                    <label for="star5"></label>
+                </div>
+            </div>
+
             <input type="submit">
         </form>
+
         <script>
-            // JavaScript code
-            document.getElementById('submitForm').addEventListener('submit', function(event) {
-              var current_version = "{{ current_version }}";
-          
-              // Get the form action URL
-              var formAction = this.getAttribute('action');
-          
-              // Modify the form action URL by appending the version query parameter
-              var updatedAction = formAction + "?version=" + encodeURIComponent(current_version);
-          
-              // Update the form action attribute
-              this.setAttribute('action', updatedAction);
-            });
+            // JavaScript code for handling star ratings
+            var stars = document.querySelectorAll('.rating input[type="radio"]');
+
+            function handleRating(event) {
+                var selectedRating = event.target.value;
+
+                for (var i = 0; i < stars.length; i++) {
+                    var star = stars[i];
+                    var label = star.nextElementSibling;
+
+                    if (i < selectedRating) {
+                        label.classList.add('filled');
+                    } else {
+                        label.classList.remove('filled');
+                    }
+                }
+            }
+
+            for (var i = 0; i < stars.length; i++) {
+                stars[i].addEventListener('change', handleRating);
+            }
         </script>
+
         <div class="item">
             <h2>{{ smiley_emoji | safe }}</h2>
         </div>
+
         <div class="item">
             <form id="validateForm" action="/validate" method="POST">
                 {{ validation_form.csrf_token }}
                 <div class="radio">
-                    {% for option in validation_form.is_correct %}
-                        <tr>
-                            <td>{{ option }}</td>
-                            <td>{{ validation_form.is_correct.choices[loop.index0] | safe }}</td>
-                        </tr>
-                    {% endfor %}
+                    {% if validation_form %}
+                        {% for option in validation_form.is_correct %}
+                            <input type="radio" id="option{{ loop.index }}" name="option" value="{{ loop.index }}">
+                            <label for="option{{ loop.index }}">{{ option }}</label>
+                        {% endfor %}
+                    {% endif %}
                 </div>
                 {% if validation_form %}
                     <input type="submit">
                 {% endif %}
             </form>
+
             <script>
                 // JavaScript code
                 document.getElementById('validateForm').addEventListener('submit', function(event) {
-                  var current_version = "{{ current_version }}";
-              
-                  // Get the form action URL
-                  var formAction = this.getAttribute('action');
-              
-                  // Modify the form action URL by appending the version query parameter
-                  var updatedAction = formAction + "?version=" + encodeURIComponent(current_version);
-              
-                  // Update the form action attribute
-                  this.setAttribute('action', updatedAction);
+                    var current_version = "{{ current_version }}";
+
+                    // Get the form action URL
+                    var formAction = this.getAttribute('action');
+
+                    // Modify the form action URL by appending the version query parameter
+                    var updatedAction = formAction + "?version=" + encodeURIComponent(current_version);
+
+                    // Update the form action attribute
+                    this.setAttribute('action', updatedAction);
                 });
             </script>
         </div>
+
         <div class="item">
             <h2>{{ current_version }}</h2>
         </div>
