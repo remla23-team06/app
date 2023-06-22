@@ -31,6 +31,7 @@
         <script>
             // JavaScript code for handling star ratings
             var stars = document.querySelectorAll('.rating input[type="radio"]');
+            var submitButton = document.querySelector('#submitForm input[type="submit"]');
 
             function handleRating(event) {
                 var selectedRating = event.target.value;
@@ -47,9 +48,27 @@
                 }
             }
 
+            function validateForm(event) {
+                var ratingSelected = false;
+
+                for (var i = 0; i < stars.length; i++) {
+                    if (stars[i].checked) {
+                        ratingSelected = true;
+                        break;
+                    }
+                }
+
+                if (!ratingSelected) {
+                    event.preventDefault(); // Prevent form submission
+                    alert('Please add a rating to your review.');
+                }
+            }
+
             for (var i = 0; i < stars.length; i++) {
                 stars[i].addEventListener('change', handleRating);
             }
+
+            submitButton.addEventListener('click', validateForm);
         </script>
 
         <div class="item">
