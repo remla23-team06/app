@@ -29,3 +29,54 @@ form {
     width: 6em;
     justify-content: space-around;
 }
+
+.rating {
+    display: inline-block;
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    text-align: center;
+}
+
+.rating input {
+    display: none;
+}
+
+.rating label {
+    display: inline-block;
+    font-size: 30px;
+    color: #ccc;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.rating label:before {
+    content: "\2605";
+    position: relative;
+    opacity: 0.5;
+    color: black;
+}
+
+.rating input:checked ~ label:before,
+.rating input:checked ~ label:before {
+    opacity: 0.8;
+    color: gold;
+}
+
+.rating label:hover:before,
+.rating label:hover ~ label:before {
+    opacity: 1;
+    color: gold;
+}
+
+.review-input {
+    width: 100%;
+    height: auto;
+    min-height: 50px;
+    padding: 5px;
+    font-size: 16px;
+    resize: vertical;
+}
+
+p{
+    text-align: center;
+}
