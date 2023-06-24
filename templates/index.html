@@ -33,17 +33,17 @@
         </form>
         <script>
             // JavaScript code
-            document.getElementById('submitForm').addEventListener('submit', function(event) {
-              var current_version = "{{ current_version }}";
+            document.getElementById('submitForm').addEventListener('submit', function (event) {
+                var current_version = "{{ current_version }}";
 
-              // Get the form action URL
-              var formAction = this.getAttribute('action');
+                // Get the form action URL
+                var formAction = this.getAttribute('action');
 
-              // Modify the form action URL by appending the version query parameter
-              var updatedAction = formAction + "?version=" + encodeURIComponent(current_version);
+                // Modify the form action URL by appending the version query parameter
+                var updatedAction = formAction + "?version=" + encodeURIComponent(current_version);
 
-              // Update the form action attribute
-              this.setAttribute('action', updatedAction);
+                // Update the form action attribute
+                this.setAttribute('action', updatedAction);
             });
         </script>
         <div class="item">
@@ -63,21 +63,47 @@
                 {% if validation_form %}
                     <input type="submit">
                 {% endif %}
+
+                <input type="hidden" id="ratingValue" name="rating" value="{{ rating_value|default('') }}">
             </form>
+
+            <input type="hidden" id="ratingValue" name="rating" value="{{ rating_value|default('') }}">
+
             <script>
                 // JavaScript code
-                document.getElementById('validateForm').addEventListener('submit', function(event) {
-                  var current_version = "{{ current_version }}";
+                document.getElementById('validateForm').addEventListener('submit', function (event) {
+                    var current_version = "{{ current_version }}";
 
-                  // Get the form action URL
-                  var formAction = this.getAttribute('action');
+                    // Get the form action URL
+                    var formAction = this.getAttribute('action');
 
-                  // Modify the form action URL by appending the version query parameter
-                  var updatedAction = formAction + "?version=" + encodeURIComponent(current_version);
+                    // Modify the form action URL by appending the version query parameter
+                    var updatedAction = formAction + "?version=" + encodeURIComponent(current_version);
 
-                  // Update the form action attribute
-                  this.setAttribute('action', updatedAction);
+                    // Update the form action attribute
+                    this.setAttribute('action', updatedAction);
                 });
+
+
+                var stars = document.querySelectorAll('.rating input[type="radio"]');
+                var submitButton = document.querySelector('input[type="submit"]');
+                var ratingValueInput = document.getElementById('ratingValue');
+                var reviewInput = document.getElementById('review');
+
+                function handleRating(event) {
+                    var selectedRating = event.target.value;
+                    ratingValueInput.value = selectedRating;  // Update the ratingValue with the selected rating
+                    console.log(selectedRating);
+                }
+
+                // Add event listener to each star rating input
+                for (var i = 0; i < stars.length; i++) {
+                    stars[i].addEventListener('change', handleRating);
+
+                    if (stars[i].value === ratingValueInput.value) {
+                        stars[i].checked = true;  // Set the radio button as checked
+                    }
+                }
             </script>
         </div>
         <div class="item">

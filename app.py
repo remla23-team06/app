@@ -2,7 +2,7 @@
 import json
 from os import getenv, urandom
 import requests
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, request
 from flask_wtf import FlaskForm
 from wtforms import validators, TextAreaField, RadioField
 from remlaverlib.version_util import VersionUtil
@@ -10,7 +10,7 @@ from remlaverlib.version_util import VersionUtil
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = urandom(32)
-server_url = 'http://localhost:8000'#getenv('MODEL_SERVICE_URL', "http://0.0.0.0:8000")
+server_url = 'http://localhost:8000'  # getenv('MODEL_SERVICE_URL', "http://0.0.0.0:8000")
 
 
 class ReviewForm(FlaskForm):
@@ -34,10 +34,18 @@ class ValidationForm(FlaskForm):
 @app.route("/validate", methods=['POST'])
 def validate():
     """Process the feedback from the validation form in `index.html`."""
+
+    review = ReviewForm().review
+    rating_value = request.form.get('rating')
+
+    print("rating", rating_value)
+
     validation_form = ValidationForm()
     if validation_form.validate_on_submit():
         prediction_is_correct = (validation_form.is_correct.data ==
                                  validation_form.thumbs_up)
+
+        print("prediction is correct", prediction_is_correct)
         requests.post(server_url + "/validate",
                       {"validation": json.dumps(prediction_is_correct), "sender": "with-emojis"},
                       timeout=20)
@@ -51,10 +59,14 @@ def submit():
     """Send the data from the text field to the server."""
     review_form = ReviewForm()
     if review_form.validate_on_submit():
+        rating_value = request.form.get('rating')
+
         response: dict = requests.post(
             server_url + "/predict",
-            {"data": review_form.review.data, "sender": "with-emojis"},
-            timeout=20).json()
+            {"data": review_form.review.data, "rating": rating_value, "sender": "with-emojis"},
+            timeout=20
+        ).json()
+
         is_positive = response.get('sentiment', 0) == 1
         smiley_emoji = "&#128578;" if is_positive else "&#128577;"
         validation_form = ValidationForm()
@@ -62,7 +74,9 @@ def submit():
                                review_form=review_form,
                                smiley_emoji=smiley_emoji,
                                current_version=VersionUtil.get_version(),
-                               validation_form=validation_form)
+                               validation_form=validation_form,
+                               rating_value=request.form.get('rating'))
+
     return redirect("/", 301)
 
 
