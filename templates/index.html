@@ -12,45 +12,57 @@
             <p>1 Star - Very Dissatisfied, 5 Stars - Very Satisfied</p>
             <div id="starRating" class="rating">
                 <div class="stars">
-                    <input type="radio" id="star1" name="rating" value="1">
+                    <input type="radio" id="star1" name="rating" value="5" required>
                     <label for="star1"></label>
-                    <input type="radio" id="star2" name="rating" value="2">
+
+                    <input type="radio" id="star2" name="rating" value="4" required>
                     <label for="star2"></label>
-                    <input type="radio" id="star3" name="rating" value="3">
+
+                    <input type="radio" id="star3" name="rating" value="3" required>
                     <label for="star3"></label>
-                    <input type="radio" id="star4" name="rating" value="4">
+
+                    <input type="radio" id="star4" name="rating" value="2" required>
                     <label for="star4"></label>
-                    <input type="radio" id="star5" name="rating" value="5">
+
+                    <input type="radio" id="star5" name="rating" value="1" required>
                     <label for="star5"></label>
                 </div>
             </div>
 
-            <input type="submit">
+
+            <input type="hidden" id="ratingValue" name="rating" value=""> <!-- Updated name to 'rating' -->
+
+            <input type="submit" onclick="disableSubmitButton()">
         </form>
 
         <script>
-            // JavaScript code for handling star ratings
             var stars = document.querySelectorAll('.rating input[type="radio"]');
+            var submitButton = document.querySelector('input[type="submit"]');
+            var ratingValueInput = document.getElementById('ratingValue');
+            var reviewInput = document.getElementById('review');
 
             function handleRating(event) {
                 var selectedRating = event.target.value;
+                ratingValueInput.value = selectedRating;  // Update the ratingValue with the selected rating
+            }
 
-                for (var i = 0; i < stars.length; i++) {
-                    var star = stars[i];
-                    var label = star.nextElementSibling;
-
-                    if (i < selectedRating) {
-                        label.classList.add('filled');
-                    } else {
-                        label.classList.remove('filled');
-                    }
+            function disableSubmitButton() {
+                if (ratingValueInput.value === "" || reviewInput.value.trim() === "") {
+                    event.preventDefault();  // Prevent form submission
+                    alert("Please select a star rating and provide a review.");
+                } else {
+                    submitButton.disabled = true;
+                    submitButton.value = 'Submitting...';
+                    document.getElementById('submitForm').submit();
                 }
             }
 
+            // Add event listener to each star rating input
             for (var i = 0; i < stars.length; i++) {
                 stars[i].addEventListener('change', handleRating);
             }
         </script>
+
 
         <div class="item">
             <h2>{{ smiley_emoji | safe }}</h2>
