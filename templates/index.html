@@ -12,19 +12,19 @@
             <p>1 Star - Very Dissatisfied, 5 Stars - Very Satisfied</p>
             <div id="starRating" class="rating">
                 <div class="stars">
-                    <input type="radio" id="star1" name="rating" value="5" required>
+                    <input type="radio" id="star1" name="rating" value="5">
                     <label for="star1"></label>
 
-                    <input type="radio" id="star2" name="rating" value="4" required>
+                    <input type="radio" id="star2" name="rating" value="4">
                     <label for="star2"></label>
 
-                    <input type="radio" id="star3" name="rating" value="3" required>
+                    <input type="radio" id="star3" name="rating" value="3">
                     <label for="star3"></label>
 
-                    <input type="radio" id="star4" name="rating" value="2" required>
+                    <input type="radio" id="star4" name="rating" value="2">
                     <label for="star4"></label>
 
-                    <input type="radio" id="star5" name="rating" value="1" required>
+                    <input type="radio" id="star5" name="rating" value="1">
                     <label for="star5"></label>
                 </div>
             </div>
@@ -35,6 +35,14 @@
             // JavaScript code
             document.getElementById('submitForm').addEventListener('submit', function (event) {
                 var current_version = "{{ current_version }}";
+                var stars = document.querySelectorAll('.rating input[type="radio"]:checked');
+
+                // Check if no stars are selected
+                if (stars.length === 0) {
+                    event.preventDefault(); // Prevent form submission
+                    alert("Please select a star rating."); // Show an alert or provide an error message
+                    return;
+                }
 
                 // Get the form action URL
                 var formAction = this.getAttribute('action');
@@ -92,8 +100,7 @@
 
                 function handleRating(event) {
                     var selectedRating = event.target.value;
-                    ratingValueInput.value = selectedRating;  // Update the ratingValue with the selected rating
-                    console.log(selectedRating);
+                    ratingValueInput.value = selectedRating;
                 }
 
                 // Add event listener to each star rating input

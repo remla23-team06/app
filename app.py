@@ -35,19 +35,17 @@ class ValidationForm(FlaskForm):
 def validate():
     """Process the feedback from the validation form in `index.html`."""
 
-    review = ReviewForm().review
     rating_value = request.form.get('rating')
-
-    print("rating", rating_value)
 
     validation_form = ValidationForm()
     if validation_form.validate_on_submit():
         prediction_is_correct = (validation_form.is_correct.data ==
                                  validation_form.thumbs_up)
 
-        print("prediction is correct", prediction_is_correct)
         requests.post(server_url + "/validate",
-                      {"validation": json.dumps(prediction_is_correct), "sender": "with-emojis"},
+                      {"validation": json.dumps(
+                          {'prediction': prediction_is_correct, 'rating': rating_value}),
+                       "sender": "with-emojis"},
                       timeout=20)
         # Show a thank you message and redirect the user to the home page
         return render_template("thanks.html")
