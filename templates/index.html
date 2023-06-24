@@ -3,10 +3,10 @@
 {% block content %}
     <div class="box">
         <h2>Senti-O-Meter</h2>
-        <form id="submitForm" action="/submit" method="POST">
+        <form id="submitForm" action="/submit" method="POST" class="review-input">
             {{ review_form.csrf_token }}
-            <label for="review">{{ review_form.review.label }}</label>
-            {{ review_form.review(class="review-input") }}
+            {{ review_form.review.label }}
+            {{ review_form.review }}
 
             <p>Please review our service:</p>
             <p>1 Star - Very Dissatisfied, 5 Stars - Very Satisfied</p>
@@ -29,45 +29,57 @@
                 </div>
             </div>
 
-
-            <input type="hidden" id="ratingValue" name="rating" value=""> <!-- Updated name to 'rating' -->
-
-            <input type="submit" onclick="disableSubmitButton()">
+            <input type="submit">
         </form>
-
         <script>
-            var stars = document.querySelectorAll('.rating input[type="radio"]');
-            var submitButton = document.querySelector('input[type="submit"]');
-            var ratingValueInput = document.getElementById('ratingValue');
-            var reviewInput = document.getElementById('review');
+            // JavaScript code
+            document.getElementById('submitForm').addEventListener('submit', function(event) {
+              var current_version = "{{ current_version }}";
 
-            function handleRating(event) {
-                var selectedRating = event.target.value;
-                ratingValueInput.value = selectedRating;  // Update the ratingValue with the selected rating
-            }
+              // Get the form action URL
+              var formAction = this.getAttribute('action');
 
-            function disableSubmitButton() {
-                if (ratingValueInput.value === "" || reviewInput.value.trim() === "") {
-                    event.preventDefault();  // Prevent form submission
-                    alert("Please select a star rating and provide a review.");
-                } else {
-                    submitButton.disabled = true;
-                    submitButton.value = 'Submitting...';
-                    document.getElementById('submitForm').submit();
-                }
-            }
+              // Modify the form action URL by appending the version query parameter
+              var updatedAction = formAction + "?version=" + encodeURIComponent(current_version);
 
-            // Add event listener to each star rating input
-            for (var i = 0; i < stars.length; i++) {
-                stars[i].addEventListener('change', handleRating);
-            }
+              // Update the form action attribute
+              this.setAttribute('action', updatedAction);
+            });
         </script>
-
-
         <div class="item">
             <h2>{{ smiley_emoji | safe }}</h2>
         </div>
+        <div class="item">
+            <form id="validateForm" action="/validate" method="POST">
+                {{ validation_form.csrf_token }}
+                <div class="radio">
+                    {% for option in validation_form.is_correct %}
+                        <tr>
+                            <td>{{ option }}</td>
+                            <td>{{ validation_form.is_correct.choices[loop.index0] | safe }}</td>
+                        </tr>
+                    {% endfor %}
+                </div>
+                {% if validation_form %}
+                    <input type="submit">
+                {% endif %}
+            </form>
+            <script>
+                // JavaScript code
+                document.getElementById('validateForm').addEventListener('submit', function(event) {
+                  var current_version = "{{ current_version }}";
 
+                  // Get the form action URL
+                  var formAction = this.getAttribute('action');
+
+                  // Modify the form action URL by appending the version query parameter
+                  var updatedAction = formAction + "?version=" + encodeURIComponent(current_version);
+
+                  // Update the form action attribute
+                  this.setAttribute('action', updatedAction);
+                });
+            </script>
+        </div>
         <div class="item">
             <h2>{{ current_version }}</h2>
         </div>
