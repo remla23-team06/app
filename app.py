@@ -10,7 +10,7 @@ from remlaverlib.version_util import VersionUtil
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = urandom(32)
-server_url = 'http://localhost:8000'  # getenv('MODEL_SERVICE_URL', "http://0.0.0.0:8000")
+server_url = getenv('MODEL_SERVICE_URL', "http://0.0.0.0:8000")
 
 
 class ReviewForm(FlaskForm):
