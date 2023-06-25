@@ -16,7 +16,7 @@ server_url = getenv('MODEL_SERVICE_URL', "http://0.0.0.0:8000")
 class ReviewForm(FlaskForm):
     """Create text area field for review."""
 
-    review = TextAreaField('Review',
+    review = TextAreaField('Please review our service:',
                            validators=[validators.DataRequired()],
                            render_kw={"rows": 5, "cols": 36})
 

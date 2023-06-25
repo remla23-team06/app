@@ -8,7 +8,6 @@
             {{ review_form.review.label }}
             {{ review_form.review }}
 
-            <p>Please review our service:</p>
             <p>1 Star - Very Dissatisfied, 5 Stars - Very Satisfied</p>
             <div id="starRating" class="rating">
                 <div class="stars">
@@ -29,7 +28,7 @@
                 </div>
             </div>
 
-            <input type="submit">
+            <input type="submit" value="Submit Review">
         </form>
         <script>
             // JavaScript code
@@ -69,7 +68,7 @@
                     {% endfor %}
                 </div>
                 {% if validation_form %}
-                    <input type="submit">
+                    <input type="submit" value="Submit Validation">
                 {% endif %}
 
                 <input type="hidden" id="ratingValue" name="rating" value="{{ rating_value|default('') }}">
