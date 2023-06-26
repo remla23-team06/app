@@ -11,6 +11,7 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = urandom(32)
 server_url = getenv('MODEL_SERVICE_URL', "http://0.0.0.0:8000")
+sender = "without-emojis"
 
 
 class ReviewForm(FlaskForm):
@@ -45,7 +46,7 @@ def validate():
         requests.post(server_url + "/validate",
                       {"validation": json.dumps(
                           {'prediction': prediction_is_correct, 'rating': rating_value}),
-                       "sender": "without-emojis"},
+                       "sender": sender},
                       timeout=20)
         # Show a thank you message and redirect the user to the home page
         return render_template("thanks.html")
@@ -56,12 +57,12 @@ def validate():
 def submit():
     """Send the data from the text field to the server."""
     review_form = ReviewForm()
+
     if review_form.validate_on_submit():
         rating_value = request.form.get('rating')
-
         response: dict = requests.post(
             server_url + "/predict",
-            {"data": review_form.review.data, "rating": rating_value, "sender": "without-emojis"},
+            {"data": review_form.review.data, "rating": rating_value, "sender": sender},
             timeout=20
         ).json()
 
@@ -72,6 +73,7 @@ def submit():
                                review_form=review_form,
                                smiley_emoji=smiley_emoji,
                                current_version=VersionUtil.get_version(),
+                               sender=sender,
                                validation_form=validation_form,
                                rating_value=request.form.get('rating'))
 
@@ -85,7 +87,8 @@ def hello():
     return render_template("index.html",
                            review_form=review_form,
                            validation_form=None,
-                           current_version=VersionUtil.get_version())
+                           current_version=VersionUtil.get_version(),
+                           sender=sender)
 
 
 if __name__ == '__main__':

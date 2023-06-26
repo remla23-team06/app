@@ -33,7 +33,8 @@
         <script>
             // JavaScript code
             document.getElementById('submitForm').addEventListener('submit', function (event) {
-                var current_version = "{{ current_version }}";
+
+                var current_version = "{{ sender }}"
                 var stars = document.querySelectorAll('.rating input[type="radio"]:checked');
 
                 // Check if no stars are selected
@@ -79,7 +80,7 @@
             <script>
                 // JavaScript code
                 document.getElementById('validateForm').addEventListener('submit', function (event) {
-                    var current_version = "{{ current_version }}";
+                    var current_version = "{{ sender }}";
 
                     // Get the form action URL
                     var formAction = this.getAttribute('action');
