@@ -2,9 +2,9 @@ name: Build app repo
 on:
     push:
         tags:
-            - "v[0-9]+.[0-9]+.[0-9]+"
-            - "with-emojis"
-            - "without-emojis"
+          - "v[0-9]+.[0-9]+.[0-9]+"
+          - "with-emojis"
+          - "without-emojis"
 
 jobs:
     lint:

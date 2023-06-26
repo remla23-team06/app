@@ -3,25 +3,54 @@
 {% block content %}
     <div class="box">
         <h2>Senti-O-Meter</h2>
-        <form id="submitForm" action="/submit" method="POST">
+        <form id="submitForm" action="/submit" method="POST" class="review-input">
             {{ review_form.csrf_token }}
             {{ review_form.review.label }}
             {{ review_form.review }}
-            <input type="submit">
+
+            <p>1 Star - Very Dissatisfied, 5 Stars - Very Satisfied</p>
+            <div id="starRating" class="rating">
+                <div class="stars">
+                    <input type="radio" id="star1" name="rating" value="5">
+                    <label for="star1"></label>
+
+                    <input type="radio" id="star2" name="rating" value="4">
+                    <label for="star2"></label>
+
+                    <input type="radio" id="star3" name="rating" value="3">
+                    <label for="star3"></label>
+
+                    <input type="radio" id="star4" name="rating" value="2">
+                    <label for="star4"></label>
+
+                    <input type="radio" id="star5" name="rating" value="1">
+                    <label for="star5"></label>
+                </div>
+            </div>
+
+            <input type="submit" value="Submit Review">
         </form>
         <script>
             // JavaScript code
-            document.getElementById('submitForm').addEventListener('submit', function(event) {
-              var current_version = "{{ current_version }}";
-          
-              // Get the form action URL
-              var formAction = this.getAttribute('action');
-          
-              // Modify the form action URL by appending the version query parameter
-              var updatedAction = formAction + "?version=" + encodeURIComponent(current_version);
-          
-              // Update the form action attribute
-              this.setAttribute('action', updatedAction);
+            document.getElementById('submitForm').addEventListener('submit', function (event) {
+                var current_version = "{{ current_version }}";
+                var stars = document.querySelectorAll('.rating input[type="radio"]:checked');
+
+                // Check if no stars are selected
+                if (stars.length === 0) {
+                    event.preventDefault(); // Prevent form submission
+                    alert("Please select a star rating."); // Show an alert or provide an error message
+                    return;
+                }
+
+                // Get the form action URL
+                var formAction = this.getAttribute('action');
+
+                // Modify the form action URL by appending the version query parameter
+                var updatedAction = formAction + "?version=" + encodeURIComponent(current_version);
+
+                // Update the form action attribute
+                this.setAttribute('action', updatedAction);
             });
         </script>
         <div class="item">
@@ -39,23 +68,48 @@
                     {% endfor %}
                 </div>
                 {% if validation_form %}
-                    <input type="submit">
+                    <input type="submit" value="Submit Validation">
                 {% endif %}
+
+                <input type="hidden" id="ratingValue" name="rating" value="{{ rating_value|default('') }}">
             </form>
+
+            <input type="hidden" id="ratingValue" name="rating" value="{{ rating_value|default('') }}">
+
             <script>
                 // JavaScript code
-                document.getElementById('validateForm').addEventListener('submit', function(event) {
-                  var current_version = "{{ current_version }}";
-              
-                  // Get the form action URL
-                  var formAction = this.getAttribute('action');
-              
-                  // Modify the form action URL by appending the version query parameter
-                  var updatedAction = formAction + "?version=" + encodeURIComponent(current_version);
-              
-                  // Update the form action attribute
-                  this.setAttribute('action', updatedAction);
+                document.getElementById('validateForm').addEventListener('submit', function (event) {
+                    var current_version = "{{ current_version }}";
+
+                    // Get the form action URL
+                    var formAction = this.getAttribute('action');
+
+                    // Modify the form action URL by appending the version query parameter
+                    var updatedAction = formAction + "?version=" + encodeURIComponent(current_version);
+
+                    // Update the form action attribute
+                    this.setAttribute('action', updatedAction);
                 });
+
+
+                var stars = document.querySelectorAll('.rating input[type="radio"]');
+                var submitButton = document.querySelector('input[type="submit"]');
+                var ratingValueInput = document.getElementById('ratingValue');
+                var reviewInput = document.getElementById('review');
+
+                function handleRating(event) {
+                    var selectedRating = event.target.value;
+                    ratingValueInput.value = selectedRating;
+                }
+
+                // Add event listener to each star rating input
+                for (var i = 0; i < stars.length; i++) {
+                    stars[i].addEventListener('change', handleRating);
+
+                    if (stars[i].value === ratingValueInput.value) {
+                        stars[i].checked = true;  // Set the radio button as checked
+                    }
+                }
             </script>
         </div>
         <div class="item">
