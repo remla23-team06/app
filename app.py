@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = urandom(32)
 server_url = getenv('MODEL_SERVICE_URL', "http://0.0.0.0:8000")
-sender = "with-emojis"
+SENDER = "with-emojis"
 
 
 class ReviewForm(FlaskForm):
@@ -62,7 +62,7 @@ def submit():
         rating_value = request.form.get('rating')
         response: dict = requests.post(
             server_url + "/predict",
-            {"data": review_form.review.data, "rating": rating_value, "sender": sender},
+            {"data": review_form.review.data, "rating": rating_value, "sender": SENDER},
             timeout=20
         ).json()
 
@@ -73,7 +73,7 @@ def submit():
                                review_form=review_form,
                                smiley_emoji=smiley_emoji,
                                current_version=VersionUtil.get_version(),
-                               sender=sender,
+                               sender=SENDER,
                                validation_form=validation_form,
                                rating_value=request.form.get('rating'))
 
@@ -88,7 +88,7 @@ def hello():
                            review_form=review_form,
                            validation_form=None,
                            current_version=VersionUtil.get_version(),
-                           sender=sender)
+                           sender=SENDER)
 
 
 if __name__ == '__main__':
