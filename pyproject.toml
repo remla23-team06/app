@@ -12,13 +12,16 @@ vcs = "git"
 [[tool.poetry.source]]
 name = "test"
 url = "https://test.pypi.org/simple"
-default = false
-secondary = true
+priority = "explicit"
 
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "default"
 
 [tool.poetry.dependencies]
-python = "^3.8"
-remlaverlib = {version = "^0.1.1", source = "test"}
+python = "^3.10"
+remlaverlib = {version = "^3.0.0", source = "test"}
 python-dotenv = "^1.0.0"
 requests = "^2.30.0"
 flask = "^2.3.2"
